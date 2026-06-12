@@ -5,5 +5,5 @@ export FREENIT_ENV="test"
 . ${BIN_DIR}/common.sh
 
 
-setup
-pytest -v
+setup yes no
+pytest -v --ignore=freenit/project/

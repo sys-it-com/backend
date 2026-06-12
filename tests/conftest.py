@@ -1,28 +1,40 @@
-import importlib
+import asyncio
 import os
+import tempfile
+from pathlib import Path
 
+import oxyde
 import pytest
-
-from alembic import command
-from alembic.config import Config
-from name import app_name
+from migrate import db_setup as dbs
+from sysit.app import config
 
 from .client import Client
-
-alembic_cfg = Config("alembic.ini")
 
 os.environ["FREENIT_ENV"] = "test"
 
 
 @pytest.fixture
 def db_setup():
-    app = importlib.import_module(f"{app_name}.app")
-    command.upgrade(alembic_cfg, "head")
+    asyncio.run(config.database.disconnect())
+    fd, db_path = tempfile.mkstemp(
+        suffix=".sqlite", dir=Path(__file__).resolve().parent.parent
+    )
+    os.close(fd)
+    if os.path.exists(db_path):
+        os.remove(db_path)
+    dburl = f"sqlite:///{Path(db_path).resolve()}"
+    os.environ["FREENIT_DBURL"] = dburl
+    config.dburl = dburl
+    config.database = oxyde.AsyncDatabase(dburl, overwrite=True)
+
+    app = dbs()
 
     yield app.app
 
-    current_path = os.path.dirname(__file__)
-    os.remove(f"{current_path}/../test.sqlite")
+    asyncio.run(config.database.disconnect())
+    if os.path.exists(db_path):
+        os.remove(db_path)
+    os.environ.pop("FREENIT_DBURL", None)
 
 
 @pytest.fixture
