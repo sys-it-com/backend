@@ -7,6 +7,7 @@ class BaseConfig(FreenitBaseConfig):
     version = "0.0.1"
     user = "freenit.models.ldap.user"
     role = "freenit.models.ldap.role"
+    modules = ["auth", "blog", "chat", "dav", "mail", "project", "sieve"]
 
 
 class DevConfig(BaseConfig):

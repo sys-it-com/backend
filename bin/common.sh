@@ -24,7 +24,7 @@ setup() {
 
     if [ "${1}" != "no" -a "${OFFLINE}" != "yes" ]; then
       ${PIP_INSTALL} pip wheel
-      env CFLAGS=-I/usr/local/include ${PIP_INSTALL} -e ".[${DB_TYPE},${FREENIT_ENV}]"
+      ${PIP_INSTALL} -e ".[${DB_TYPE},${FREENIT_ENV}]"
     fi
   fi
 

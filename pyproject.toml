@@ -26,10 +26,12 @@ classifiers = [
 
 [project.optional-dependencies]
   mongo = ["freenit[mongo]"]
+  build = ["hatchling"]
   dev = ["freenit[dev]"]
   ldap = ["freenit[ldap]"]
   sql = ["freenit[sql]"]
   test = ["freenit[test]"]
+  all = ["freenit[all]"]
 
 [project.urls]
 Homepage = "https://freenit.org" 
