@@ -1,5 +1,4 @@
 from freenit.base_config import Auth, Mail, BaseConfig as FreenitBaseConfig
-from freenit.base_config import LDAP
 
 
 class BaseConfig(FreenitBaseConfig):
@@ -7,7 +6,22 @@ class BaseConfig(FreenitBaseConfig):
     version = "0.0.1"
     user = "freenit.models.ldap.user"
     role = "freenit.models.ldap.role"
-    modules = ["auth", "blog", "chat", "dav", "mail", "project", "sieve"]
+    modules = [
+        "auth",
+        "user",
+        "role",
+        "project",
+        "lms",
+        "mailinglist",
+        "domain",
+        "dav",
+        "mail",
+        "sieve",
+        "chat",
+        "omemo",
+        "git",
+        "blog",
+    ]
 
 
 class DevConfig(BaseConfig):
@@ -23,5 +37,5 @@ class TestConfig(BaseConfig):
 
 
 class ProdConfig(BaseConfig):
-    secret = "MORESECURESECRET" #nosec
+    secret = "MORESECURESECRET"  # nosec
     mail = Mail()
